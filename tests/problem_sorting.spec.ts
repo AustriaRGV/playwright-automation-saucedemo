@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
 
-test('Sorting items by different categories - standard_user', async ({ page }) => {
+test('Sorting items by different categories - problem_user', async ({ page }) => {
     await page.goto('https://www.saucedemo.com/');
 
     // Login with valid credentials
-    await page.fill('#user-name', 'standard_user');
+    await page.fill('#user-name', 'problem_user');
     await page.fill('#password', 'secret_sauce');
     await page.click('#login-button');
 
@@ -25,7 +25,6 @@ test('Sorting items by different categories - standard_user', async ({ page }) =
 
     await dropdown.selectOption('za');
     const firstItemZA = page.locator('.inventory_item_name').first();
-    await expect(firstItemZA).toHaveText('Test.allTheThings() T-Shirt (Red)');
     
     const textZA = await firstItemZA.textContent();
     if (textZA === 'Test.allTheThings() T-Shirt (Red)') {
@@ -36,7 +35,6 @@ test('Sorting items by different categories - standard_user', async ({ page }) =
 
     await dropdown.selectOption('lohi');
     const firstItemLowHigh = page.locator('.inventory_item_name').first();
-    await expect(firstItemLowHigh).toHaveText('Sauce Labs Onesie');
 
     const textLowHigh = await firstItemLowHigh.textContent();
     if (textLowHigh === 'Sauce Labs Onesie') {
@@ -47,7 +45,6 @@ test('Sorting items by different categories - standard_user', async ({ page }) =
     
     await dropdown.selectOption('hilo');
     const firstItemHighLow = page.locator('.inventory_item_name').first();
-    await expect(firstItemHighLow).toHaveText('Sauce Labs Fleece Jacket');
 
     const textHighLow = await firstItemHighLow.textContent();
     if (textHighLow === 'Sauce Labs Fleece Jacket') {

@@ -1,6 +1,6 @@
   import { test, expect } from '@playwright/test';
   
-  test('Adding items to the cart', async ({ page }) => {
+  test('Adding items to the cart - standard_user', async ({ page }) => {
     // Go to Sauce Demo
     await page.goto('https://www.saucedemo.com/');
 
