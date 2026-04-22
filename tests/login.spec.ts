@@ -6,7 +6,6 @@ await page.goto('https://www.saucedemo.com/');
 // Expect a title "to contain" a substring.
 await expect(page).toHaveTitle(/Swag Labs/);
 });
-test('Sauce Demo Login Validation', async ({ page }) => {
 const user_ids = [
   {user: '', pass:'', expectedError: 'Username is required'},
   {user: 'standard_user', pass: 'secret_sauce', expectedError: null},
@@ -18,10 +17,14 @@ const user_ids = [
 ];
 
 for (const user_id of user_ids) {
+  test(`Sauce Demo Login Validation - ${user_id.user || 'empty_user'}`, async ({ page }) => {
+
   await page.goto('https://www.saucedemo.com/');
+  await page.locator('#user-name').waitFor({ state: 'visible' });
+
   await page.locator('#user-name').fill(user_id.user);
   await page.locator('#password').fill(user_id.pass);
-  await page.locator('#login-button').click();
+  await page.click('#login-button');
 
   if (user_id.expectedError) {
     const error = page.locator('[data-test="error"]');
@@ -33,5 +36,5 @@ for (const user_id of user_ids) {
       await page.getByRole('button', { name: 'Open Menu' }).click();
       await page.getByRole('link', { name: 'Logout' }).click();
   }
-  }
- });
+});
+}
