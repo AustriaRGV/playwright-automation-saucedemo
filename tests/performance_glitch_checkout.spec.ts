@@ -1,18 +1,15 @@
-import { test, expect } from '@playwright/test';
+  import { test, expect } from '@playwright/test';
   
-  test('Adding items to the cart - problem_user', async ({ page }) => {
+  test('Adding items to the cart - performance_glitch_user', async ({ page }) => {
     // Go to Sauce Demo
     await page.goto('https://www.saucedemo.com/');
 
     // Login
-    await page.fill('#user-name', 'problem_user');
+    await page.fill('#user-name', 'performance_glitch_user');
     await page.fill('#password', 'secret_sauce');
     await page.click('#login-button');
 
-    await expect(page).toHaveURL(/inventory.html/);
-
-    
-// Wait for inventory page
+    // Wait for inventory page
     await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
 
     //locate cart badge
@@ -36,8 +33,15 @@ import { test, expect } from '@playwright/test';
     await page.fill('#postal-code', '12345')
     await page.click('#continue');
 
-    // Expect error message instead of proceeding to next step
-    const errorMessage = page.locator('[data-test="error"]');
-    await expect(errorMessage).toBeVisible();
-    await expect(errorMessage).toContainText('Error');
+    // Verify we are on checkout overview page
+    await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-two.html');
+    const finishButton = page.locator('[data-test="finish"]');
+    await expect(finishButton).toBeVisible();
+    finishButton.click();
+
+    // Verify we are on checkout complete page
+    await expect(page).toHaveURL('https://www.saucedemo.com/checkout-complete.html');
+    const homeButton = page.locator('[data-test="back-to-products"]');
+    await expect(homeButton).toBeVisible();
+    await homeButton.click();
 });
